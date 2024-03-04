@@ -1,0 +1,2 @@
+# springboot_java17_gradle_container
+springboot_java17_gradleKotlin container image
