@@ -44,6 +44,18 @@ jobs:
     - name: GITHUB variables
       run: echo $GITHUB_ENV
 
+    # Find the .jar/.war file path
+    - name: Find the Artifact path
+      run: find ./ -type f \( -iname \*.jar -o -iname \*.war \)
+
+    - name: java version
+      run: | 
+        echo "java --version"
+        echo "uname -a"
+        echo "lsb_release -a"
+        echo "cat /etc/*-release"
+        echo "cat /etc/*_version"
+
     # Put current date into a variable to append to Artifact zip file
     - name: Dynamically set PRESENT_TIME environment variable
       run: echo "PRESENT_TIME=$(date +%Y-%m-%d-%H-%M-%S)" >> $GITHUB_ENV
@@ -57,6 +69,18 @@ jobs:
         retention-days: 1
         compression-level: 4
         overwrite: false
+
+  # Create a docker image from the created .jar or .war file and upload the artifact to github
+
+#  container:
+#
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#    - uses: actions/checkout@v3
+#    - name: Build the Docker image
+#      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
